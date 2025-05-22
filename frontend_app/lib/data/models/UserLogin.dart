@@ -13,7 +13,7 @@ class UserLogin {
 
   Map<String, dynamic> toJson() {
     return {
-      'userNameRq': userName,
+      'userEmailRq': userName,
       'passHashRq': passHash,
     };
   }

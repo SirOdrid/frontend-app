@@ -46,7 +46,7 @@ class User {
       email: json['emailRq'] ?? '',
       birthdayDate: json['birthdayDateRq'] ?? 0,
       profileImage: json['profileImageRq'] ?? '',
-      phoneNumber: json['phoneNumberRq'],
+      phoneNumber: json['phoneNumberRq'] ?? 0,
       emailNotifications: json['emailNotificationsRq'] ?? false,
       fkCountry: Country.fromJson(json['fkCountryRq'] ?? {}),
       fkUserType: UserType.fromJson(json['fkUserTypeRq'] ?? {}),
@@ -58,12 +58,12 @@ class User {
       'userNameRq': userName,
       'passHashRq': passHash,
       'emailRq': email,
-      'birthdayDateRq': birthdayDate,
+      'creationDateRq': birthdayDate,
       'profileImageRq': profileImage,
       'phoneNumberRq': phoneNumber,
       'emailNotificationsRq': emailNotifications,
       'fkCountryNameRq': fkCountry.countryName,
-      'fkUserTypeRq': fkUserType.userTypeId,
+      'fkUserTypeNameRq': fkUserType.userTypeName,
     };
   }
 }

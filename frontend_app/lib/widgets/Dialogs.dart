@@ -36,7 +36,9 @@ class Dialogs {
             children: [
               const Expanded(
                 child: SingleChildScrollView(
-                  child: Text(TextContent.termsAndConditions)
+                  
+                  child: Text(
+                    TextContent.termsAndConditions, )
                 ),
               )
             ],

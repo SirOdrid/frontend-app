@@ -19,7 +19,7 @@ class ApiService {
       },
       onError: (DioException e, handler) {
         print(
-            "Error en la API: ${e.response?.statusCode} ${_dio.options.baseUrl}");
+            "Error en la API: ${e.response?.statusCode} ${_dio.options.baseUrl} ${e.response?.data}");
         return handler.next(e);
       },
     ));

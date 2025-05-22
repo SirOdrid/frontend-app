@@ -6,6 +6,7 @@ abstract class EndpointsApi {
   static const String endpointBaseUser = "/user";
   static const String endpointRegistry = "$endpointBaseUser/new";
   static const String endpointLogin = "$endpointBaseUser/login";
+  static const String endpointPasswordRecovery = "$endpointBaseUser/recovery";
 
   // COUNTRY - ENDPOINTS
   static const String endpointBaseCountry = "/country";
@@ -14,5 +15,7 @@ abstract class EndpointsApi {
   // USER_TYPE - ENDPOINTS
   static const String endpointBaseUserType = "/user_type";
   static const String endpointAllUserTypes = "$endpointBaseUserType/all";
+
+  
 
 }

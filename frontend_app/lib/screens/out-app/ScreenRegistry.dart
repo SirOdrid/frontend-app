@@ -25,7 +25,11 @@ class ScreenRegistry extends StatefulWidget {
 
 class _ScreenRegistryState extends State<ScreenRegistry> {
 
+  String _tempPassword = '';
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   String _formUserName = '';
   String _formPassHash = '';
   String _formConfirmPass = '';
@@ -41,35 +45,49 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
   bool _aceptaNotificaciones = false;
   
 
-  Future<void> _aceptar() async {
-    //Navigator.pop(context);
-    if (_formKey.currentState!.validate()) {
-      // Process data.
-      _formKey.currentState!.save();
+    void _aceptar() {
+    if (!_formKey.currentState!.validate()) {
+      // Si el formulario no es válido, no continuar
+      return;
     }
-    _formBirthdayDate = DateTime(_selectedDate as int);
-    
-    
-    // Crear un objeto User
+
+    if (!_aceptaTerminos) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Debes aceptar los términos y condiciones')),
+      );
+      return;
+    }
+
+    // Guardar los datos del formulario
+    _formKey.currentState!.save();
+
+    _formBirthdayDate = DateTime(
+      _selectedDate!.year,
+      _selectedDate!.month,
+      _selectedDate!.day,
+    );
+
+    // Crear el objeto usuario
     User user = User(
       userId: 0,
       userName: _formUserName,
       passHash: _formPassHash,
       email: _formEmail,
       profileImage: _formProfileImage,
-      emailNotifications: true,
+      emailNotifications: _aceptaNotificaciones,
+      phoneNumber: int.tryParse(_formPhoneNumber) ?? 0,
       birthdayDate: _formBirthdayDate.millisecondsSinceEpoch,
       fkCountry: Country(countryId: 0, countryName: _selectedCountry),
-      fkUserType: UserType(userTypeId: 3, userTypeName: _selectedTypeUser),
+      fkUserType: UserType(userTypeId: 0, userTypeName: _selectedTypeUser),
     );
 
-    final usuarioProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    await usuarioProvider.registryUser(user);
+    final usuarioProvider = Provider.of<UserProvider>(context, listen: false);
+    usuarioProvider.registryUser(user);
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Usuario guardado correctamente')),
     );
+
     Navigator.pop(context);
   }
 
@@ -144,8 +162,20 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
                           obscureText: false,
                           onSaved: (newValue) => _formEmail = newValue!,
                           onlyNumbers: false,
-                          validator: (value) =>
-                              value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo obligatorio';
+                            }
+
+                            // Expresión regular para validar email
+                            final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                            if (!emailRegExp.hasMatch(value)) {
+                              return 'Introduce un email válido';
+                            }
+
+                            return null; // todo bien
+                          },                  
                         ),
                         
                         const SizedBox(
@@ -174,8 +204,16 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
                           obscureText: true,
                           onSaved: (pass) => _formPassHash = pass!,
                           onlyNumbers: false,
-                          validator: (value) =>
-                              value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                           validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo obligatorio';
+                            }
+                            if (value.length < 6) {
+                              return 'Debe tener al menos 6 caracteres';
+                            }
+                            _tempPassword = value;
+                            return null;
+                          },
                         ),
                       
                         const SizedBox(
@@ -189,8 +227,15 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
                           obscureText: true,
                           onSaved: (pass) => _formConfirmPass = pass!,
                           onlyNumbers: false,
-                          validator: (value) =>
-                              value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo obligatorio';
+                            }
+                            if (value != _tempPassword) {
+                              return 'Las contraseñas no coinciden';
+                            }
+                            return null;
+                          },
                         ),
                       
                         const SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/data/models/User.dart';
 import 'package:frontend_app/data/models/UserLogin.dart';
+import 'package:frontend_app/data/models/UserRecovery.dart';
 import 'package:frontend_app/data/models/country.dart';
 import 'package:frontend_app/data/repositories/UserRepository.dart';
 import 'package:frontend_app/data/repositories/assistant/CountryRepository.dart';
@@ -39,9 +40,9 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loginUser(UserLogin user) async {
-    _user = await _userRepository.loginUser(user);
+  Future<User> loginUser(UserLogin userLogin) async {
     notifyListeners();
+    return await _userRepository.loginUser(userLogin); 
   }
 
   Future<void> accountEdit(String id, User user) async {
@@ -53,6 +54,10 @@ class UserProvider with ChangeNotifier {
   Future<void> accountDelete(int id) async {
     await _userRepository.accountDelete(id);
     notifyListeners();
+  }
+
+  Future<void> passwordRecovery (UserRecovery userRecovery) async {
+    await _userRepository.passwordRecovery(userRecovery);
   }
   
 }

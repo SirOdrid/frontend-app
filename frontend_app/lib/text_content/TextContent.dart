@@ -6,7 +6,7 @@ class TextContent {
   static const String termsAndConditions = """
     TÉRMINOS Y CONDICIONES DEL SERVICIO – TRACKER CRAWLER
 
-    Última actualización: [Fecha de hoy]
+    Última actualización: 20/05/2025
 
     Por favor, lea detenidamente estos Términos y Condiciones antes de utilizar la aplicación Tracker Crawler. Al acceder o utilizar este servicio, usted acepta quedar sujeto a estos términos.
 
@@ -42,7 +42,7 @@ class TextContent {
     Estos términos se regirán e interpretarán de acuerdo con las leyes del país donde esté registrado el proyecto o su responsable legal. Cualquier controversia será resuelta ante los tribunales competentes del mismo territorio.
 
     9. CONTACTO
-    Para consultas sobre estos términos o cualquier aspecto relacionado con el servicio, puede contactar con el equipo de desarrollo a través del correo: [correo de contacto].
+    Para consultas sobre estos términos o cualquier aspecto relacionado con el servicio, puede contactar con el equipo de desarrollo a través del correo: trackercrawler@gmail.com
 
     """;
 }
