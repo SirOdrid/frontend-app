@@ -40,16 +40,16 @@ class User {
   // Convierte un JSON a un objeto User
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['userIdRq'] ?? 0,
-      userName: json['userNameRq'] ?? '',
-      passHash: json['passHashRq'] ?? '',
-      email: json['emailRq'] ?? '',
-      birthdayDate: json['birthdayDateRq'] ?? 0,
-      profileImage: json['profileImageRq'] ?? '',
-      phoneNumber: json['phoneNumberRq'] ?? 0,
-      emailNotifications: json['emailNotificationsRq'] ?? false,
-      fkCountry: Country.fromJson(json['fkCountryRq'] ?? {}),
-      fkUserType: UserType.fromJson(json['fkUserTypeRq'] ?? {}),
+      userId: json['userId'] ?? 0,
+      userName: json['userName'] ?? '',
+      passHash: json['passHash'] ?? '',
+      email: json['email'] ?? '',
+      birthdayDate: json['birthdayDate'] ?? 0,
+      profileImage: json['profileImage'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? 0,
+      emailNotifications: json['emailNotifications'] ?? false,
+      fkCountry: Country.fromJson(json['fkCountry'] ?? {}),
+      fkUserType: UserType.fromJson(json['fkUserType'] ?? {}),
     );
   }
 

@@ -232,10 +232,8 @@ class ScreenLoginState extends State<ScreenLogin> {
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: const Text('Error'),
-                                        content: Text(e
-                                            .toString()
-                                            .replaceFirst('Exception: ', '')),
+                                        title: const Text('Email Enviado'),
+                                        content: Text("Se ha enviado un correo a $email"),
                                         actions: [
                                           TextButton(
                                             child: const Text('Cerrar'),
@@ -258,7 +256,8 @@ class ScreenLoginState extends State<ScreenLogin> {
                     '¿Olvidaste tu Contraseña?',
                     style: TextStyle(
                         color: const Color.fromARGB(255, 44, 138, 0),
-                        fontSize: 16,
+                        fontSize: 20,
+                        decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

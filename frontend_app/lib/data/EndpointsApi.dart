@@ -16,6 +16,9 @@ abstract class EndpointsApi {
   static const String endpointBaseUserType = "/user_type";
   static const String endpointAllUserTypes = "$endpointBaseUserType/all";
 
-  
-
+  // BOARDGAME - ENDPOINTS
+  static const String endpointBaseBoardgame = "/boardgame";
+  static const String endpointAllBoardgames = "$endpointBaseBoardgame/all";
+  static const String endpointSearchBoardgameInBgg = "$endpointBaseBoardgame/search-bgg"; 
+  static const String endpointSearchBoardgameLocal = "$endpointBaseBoardgame/search"; 
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/data/providers/BoardgameProvider.dart';
 import 'package:frontend_app/data/providers/CountryProvider.dart';
 import 'package:frontend_app/data/providers/UserProvider.dart';
 import 'package:frontend_app/data/providers/UserTypeProvider.dart';
@@ -15,6 +16,8 @@ void main() {
           create: (context) => CountryProvider()..init()),
         ChangeNotifierProvider(
           create: (context) => UserTypeProvider()..init()),
+        ChangeNotifierProvider(
+          create: (context) => BoardgameProvider()),
       ],
       child: const MyApp(),
     ),

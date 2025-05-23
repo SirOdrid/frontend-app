@@ -13,6 +13,17 @@ class ScreenCollection extends StatefulWidget {
 class _ScreenCollectionState extends State<ScreenCollection> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: Text(
+              "MI COLLECION DE JUEGOS",
+              style: TextStyle(fontSize: 24, color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
