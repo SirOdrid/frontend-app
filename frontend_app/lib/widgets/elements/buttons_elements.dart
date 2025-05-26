@@ -17,9 +17,7 @@ Widget standardButtonWithIcon(String text, VoidCallback onPressed, IconData icon
   return Container(
     decoration: DecorationBoxButton(8),
     child: ElevatedButton.icon(
-      onPressed: () {
-        onPressed;
-      },
+      onPressed: onPressed,
       icon: Icon(icon, color: Colors.white, size: 16), 
       label: Text(text), 
       style: styleButton()

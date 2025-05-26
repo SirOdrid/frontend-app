@@ -7,6 +7,7 @@ abstract class EndpointsApi {
   static const String endpointRegistry = "$endpointBaseUser/new";
   static const String endpointLogin = "$endpointBaseUser/login";
   static const String endpointPasswordRecovery = "$endpointBaseUser/recovery";
+  static const String endpointSearchUsers = "$endpointBaseUser/search";
 
   // COUNTRY - ENDPOINTS
   static const String endpointBaseCountry = "/country";
@@ -16,9 +17,47 @@ abstract class EndpointsApi {
   static const String endpointBaseUserType = "/user_type";
   static const String endpointAllUserTypes = "$endpointBaseUserType/all";
 
+  // USER_ASSOCIATE - ENDPOINTS
+  static const String endpointBaseUserAssociate = "/user_associate";
+  static const String endpointAddAssociation = "$endpointBaseUserAssociate/new";
+  static const String endpointDeleteAssociation = endpointBaseUserAssociate;
+  static const String endpointAllAssociations = "$endpointBaseUserAssociate/all_associations";
+  static const String endpointAllAssociates = "$endpointBaseUserAssociate/all_associated";
+  
+
   // BOARDGAME - ENDPOINTS
   static const String endpointBaseBoardgame = "/boardgame";
   static const String endpointAllBoardgames = "$endpointBaseBoardgame/all";
   static const String endpointSearchBoardgameInBgg = "$endpointBaseBoardgame/search-bgg"; 
   static const String endpointSearchBoardgameLocal = "$endpointBaseBoardgame/search"; 
+
+  // COLLECTION - ENDPOINTS
+  static const String endpointBaseCollection = "/collection";
+  static const String endpointAddCollection = "$endpointBaseCollection/$endpointBaseUser";
+  static const String endpointDeleteCollection = "$endpointBaseCollection/$endpointBaseUser";
+  static const String endpointGetCollectionByUser = "$endpointBaseCollection/all$endpointBaseUser";
+
+  // SESSION - ENDPOINTS
+  static const String endpointBaseSession = "/session";
+  static const String endpointAddSession = "$endpointBaseSession/new";
+  static const String endpointEditSession = endpointBaseSession;
+  static const String endpointDeleteSession = endpointBaseSession;
+  static const String endpointGetSessionsByUser = "$endpointBaseSession/all$endpointBaseUser";
+
+  // MEETING - ENDPOINTS
+  static const String endpointBaseMeeting = "/meeting";
+  static const String endpointAddMeeting = "$endpointBaseMeeting/new";
+  static const String endpointDeleteMeeting = endpointBaseMeeting;
+  static const String endpointGetMeetingsByUser = "$endpointBaseMeeting/all$endpointBaseUser";
+  static const String endpointGetMeetingsBySession = "$endpointBaseMeeting/all$endpointBaseSession";
+
+  // PACK - ENDPOINTS
+  static const String endpointBasePack = "/pack";
+  static const String endpointAddPack = "$endpointBasePack/new";
+  static const String endpointDeletePack = endpointBasePack;
+  static const String endpointGetPacksByUser = "$endpointBasePack/all$endpointBaseUser";
+
+  // BOARDGAME_PACK - ENDPOINTS
+  static const String endpointBaseBoardgamePack = "/boardgame_pack";
+
 }

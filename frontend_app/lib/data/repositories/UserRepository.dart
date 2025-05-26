@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -81,4 +80,14 @@ class UserRepository {
   }
 }
 
+  Future <List<User>> searchUsers(String username) async {
+    try {
+      final response = await _apiService.dio.get("${EndpointsApi.endpointSearchUsers}/$username");
+      return (response.data as List)
+        .map((json) => User.fromJson(json))
+        .toList();
+    }catch (e) {
+      throw Exception("Error al obtener usuarios");
+    }
+  }
 }

@@ -22,7 +22,7 @@ class ScreenMaster extends StatefulWidget {
 }
 
 class _ScreenMasterState extends State<ScreenMaster> {
-  int selectedPage = 0;
+  int selectedPage = 2;
 
   bool _shouldShowAssociationTile() {
     return widget.user.fkUserType.userTypeName.toLowerCase() != 'particular';
@@ -52,7 +52,9 @@ class _ScreenMasterState extends State<ScreenMaster> {
       // 1
       ScreenSocial(user: widget.user),
       // 2
-      ScreenCollection(user: widget.user),
+      ScreenCollection(user: widget.user, goToBoardgamesSearch: () {setState(() {
+                          selectedPage = 0;
+                        });}),
       // 3
       ScreenPacks(user: widget.user),
       // 4
@@ -180,7 +182,7 @@ class _ScreenMasterState extends State<ScreenMaster> {
                       children: [
                         ListTile(
                           leading: const Icon(Icons.library_books),
-                          title: const Text('MI ESTANTERÍA'),
+                          title: const Text('MI COLECCIÓN'),
                           onTap: () {
                             setState(() {
                               selectedPage = 2;

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/data/providers/BoardgameProvider.dart';
+import 'package:frontend_app/data/providers/CollectionProvider.dart';
 import 'package:frontend_app/data/providers/CountryProvider.dart';
+import 'package:frontend_app/data/providers/MeetingProvider.dart';
+import 'package:frontend_app/data/providers/PackProvider.dart';
+import 'package:frontend_app/data/providers/SessionProvider.dart';
+import 'package:frontend_app/data/providers/UserAssociateProvider.dart';
 import 'package:frontend_app/data/providers/UserProvider.dart';
 import 'package:frontend_app/data/providers/UserTypeProvider.dart';
 import 'package:frontend_app/screens/out-app/ScreenLogin.dart';
@@ -18,6 +23,16 @@ void main() {
           create: (context) => UserTypeProvider()..init()),
         ChangeNotifierProvider(
           create: (context) => BoardgameProvider()),
+        ChangeNotifierProvider(
+          create: (context) => UserAssociateProvider()),
+        ChangeNotifierProvider(
+          create: (context) => CollectionProvider()),
+        ChangeNotifierProvider(
+          create: (context) => SessionProvider()),
+        ChangeNotifierProvider(
+          create: (context) => MeetingProvider()),
+        ChangeNotifierProvider(
+          create: (context) => PackProvider()),
       ],
       child: const MyApp(),
     ),

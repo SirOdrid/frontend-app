@@ -63,7 +63,7 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
-          labelStyle: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 34, 214, 10)),
           hintStyle: const TextStyle(color: Color.fromARGB(179, 255, 255, 255)),
           filled: true,
           fillColor: isFocused

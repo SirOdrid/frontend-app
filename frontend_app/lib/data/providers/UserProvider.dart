@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/data/models/User.dart';
+import 'package:frontend_app/data/models/UserAssociate.dart';
 import 'package:frontend_app/data/models/UserLogin.dart';
 import 'package:frontend_app/data/models/UserRecovery.dart';
 import 'package:frontend_app/data/models/country.dart';
@@ -11,6 +12,8 @@ class UserProvider with ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   final CountryRepository _countryRepository = CountryRepository();
 
+
+  List<User> searchResults = [];
   List<Country> _countries = [];
   List<User> _users = []; 
   User? _user;
@@ -59,5 +62,29 @@ class UserProvider with ChangeNotifier {
   Future<void> passwordRecovery (UserRecovery userRecovery) async {
     await _userRepository.passwordRecovery(userRecovery);
   }
+
+  Future<List<User>> searchUsers (String username) async {
+    notifyListeners();
+    searchResults = await _userRepository.searchUsers(username);
+    return searchResults;
+    
+  }
+
+  List<User> filterSearchResultsExcludingUserAndAssociates(
+  User user,
+  List<UserAssociate> associations,
+) {
+  // Obtener los IDs de los usuarios asociados
+  final associatedUserIds = associations
+      .where((assoc) => assoc.fkAssociatedUser.userId == user.userId)
+      .map((assoc) => assoc.fkHostUser.userId)
+      .toSet();
+
+  // Filtrar los resultados de búsqueda
+  return searchResults.where((u) {
+    return u.userId != user.userId && !associatedUserIds.contains(u.userId);
+  }).toList();
+}
+
   
 }
