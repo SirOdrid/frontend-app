@@ -6,7 +6,7 @@ class User {
   final String userName;
   final String passHash;
   final String email;
-  final int birthdayDate;
+  final DateTime creationDate;
   final String? profileImage;
   final int? phoneNumber;
   final bool emailNotifications;
@@ -18,7 +18,7 @@ class User {
     required this.userName,
     required this.passHash,
     required this.email,
-    required this.birthdayDate,
+    required this.creationDate,
     this.profileImage,
     this.phoneNumber,
     required this.emailNotifications,
@@ -30,7 +30,7 @@ class User {
   String getUserName() => userName;
   String getPassHash() => passHash;
   String getEmail() => email;
-  int getBirthdayDate() => birthdayDate;
+  DateTime getCreationDate() => creationDate;
   String? getProfileImage() => profileImage;
   int? getPhoneNumber() => phoneNumber;
   bool getEmailNotifications() => emailNotifications;
@@ -44,7 +44,7 @@ class User {
       userName: json['userName'] ?? '',
       passHash: json['passHash'] ?? '',
       email: json['email'] ?? '',
-      birthdayDate: json['birthdayDate'] ?? 0,
+      creationDate: DateTime.parse(json['creationDate']),
       profileImage: json['profileImage'] ?? '',
       phoneNumber: json['phoneNumber'] ?? 0,
       emailNotifications: json['emailNotifications'] ?? false,
@@ -58,7 +58,7 @@ class User {
       'userNameRq': userName,
       'passHashRq': passHash,
       'emailRq': email,
-      'creationDateRq': birthdayDate,
+      'creationDateRq': creationDate.toIso8601String(),
       'profileImageRq': profileImage,
       'phoneNumberRq': phoneNumber,
       'emailNotificationsRq': emailNotifications,

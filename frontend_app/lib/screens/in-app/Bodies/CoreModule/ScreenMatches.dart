@@ -31,14 +31,10 @@ class _ScreenMatchesState extends State<ScreenMatches> {
 
   String? _selectedSessionFilter;
   String? _selectedGameFilter;
-  String? _filterSessionName;
   String? _formBoardgameName;
-  DateTime _selectedDate = DateTime.now();
-  Duration _selectedDuration = Duration.zero;
+  String? _formSessionName;
 
-  String _formSessionName = '';
-  List<UserAssociate> _selectedUsers = [];
-  late DateTime _sessionDate;
+  Duration _selectedDuration = Duration.zero;
 
   void _toggleForm() {
     setState(() {
@@ -47,20 +43,27 @@ class _ScreenMatchesState extends State<ScreenMatches> {
   }
 
   void _submitForm() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
+    if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
+
+    final session = Provider.of<SessionProvider>(context, listen: false)
+        .sessions
+        .firstWhere(
+          (s) => s.sessionName == _formSessionName,
+          orElse: () => throw Exception('Sesión no encontrada'),
+        );
+
+    final boardgame = Provider.of<CollectionProvider>(context, listen: false)
+        .collections
+        .firstWhere(
+          (b) => b.boardgameName == _formBoardgameName,
+          orElse: () => throw Exception('Juego no encontrado'),
+        );
 
     final newMeeting = Meeting(
       meetingId: 0,
-      fkSession: Provider.of<SessionProvider>(context, listen: false)
-          .sessions
-          .firstWhere((session) => session.sessionName == _formSessionName),
-      fkBoardgame: Provider.of<CollectionProvider>(context, listen: false)
-          .collections
-          .firstWhere((collection) => collection.boardgameName == _formBoardgameName),
+      fkSession: session,
+      fkBoardgame: boardgame,
       meetingDuration: _selectedDuration,
     );
 
@@ -73,6 +76,9 @@ class _ScreenMatchesState extends State<ScreenMatches> {
 
     setState(() {
       _showForm = false;
+      _formBoardgameName = null;
+      _formSessionName = null;
+      _selectedDuration = Duration.zero;
     });
   }
 
@@ -124,12 +130,12 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                   width: double.infinity,
                   child: AnimatedCrossFade(
                     duration: const Duration(milliseconds: 300),
-                    crossFadeState:
-                        _showForm ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                    crossFadeState: _showForm
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
                     firstChild: SingleChildScrollView(
                       child: Padding(
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 6, horizontal: 15),
+                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 15),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -141,10 +147,10 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                                     : null,
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    _formSessionName = newValue!;
+                                    _formSessionName = newValue;
                                   });
                                 },
-                                items: sessions.map<DropdownMenuItem<String>>((session) {
+                                items: sessions.map((session) {
                                   return DropdownMenuItem<String>(
                                     value: session.sessionName,
                                     child: Text(session.sessionName),
@@ -159,10 +165,10 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                                     : null,
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    _formBoardgameName = newValue!;
+                                    _formBoardgameName = newValue;
                                   });
                                 },
-                                items: collections.map<DropdownMenuItem<String>>((Boardgame collection) {
+                                items: collections.map((collection) {
                                   return DropdownMenuItem<String>(
                                     value: collection.boardgameName,
                                     child: Text(collection.boardgameName),
@@ -196,8 +202,7 @@ class _ScreenMatchesState extends State<ScreenMatches> {
 
               const SizedBox(height: 16),
 
-              // Filtros por sesión y juego
-              if (sessions.isNotEmpty && collections.isNotEmpty)
+              // if (sessions.isNotEmpty && collections.isNotEmpty && filteredMeetings.isNotEmpty)
                 Row(
                   children: [
                     Expanded(
@@ -263,20 +268,17 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                             child: ListTile(
                               title: RichText(
                                 text: TextSpan(
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                  style: const TextStyle(color: Colors.black, fontSize: 20),
                                   children: [
                                     TextSpan(
                                       text: meeting.fkSession.sessionName,
-                                      style:
-                                          const TextStyle(fontWeight: FontWeight.bold),
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                     const TextSpan(text: ' - '),
                                     TextSpan(
-                                      text: DateFormat('dd/MM/yyyy')
-                                          .format(meeting.fkSession.sessionDate.toLocal()),
-                                      style:
-                                          const TextStyle(fontWeight: FontWeight.bold),
+                                      text: DateFormat('dd/MM/yyyy').format(
+                                          meeting.fkSession.sessionDate.toLocal()),
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
@@ -286,23 +288,20 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 16),
+                                      style: const TextStyle(color: Colors.black, fontSize: 16),
                                       children: [
                                         const TextSpan(
                                           text: 'Juego: ',
                                           style: TextStyle(fontWeight: FontWeight.bold),
                                         ),
-                                        TextSpan(
-                                            text: meeting.fkBoardgame.boardgameName),
+                                        TextSpan(text: meeting.fkBoardgame.boardgameName),
                                       ],
                                     ),
                                   ),
                                   const SizedBox(height: 4),
                                   RichText(
                                     text: TextSpan(
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 14),
+                                      style: const TextStyle(color: Colors.black, fontSize: 14),
                                       children: [
                                         const TextSpan(
                                           text: 'Duración: ',

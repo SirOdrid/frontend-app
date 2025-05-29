@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/Styles/buttons_styles.dart';
 import 'package:frontend_app/data/models/Boardgame.dart';
+import 'package:frontend_app/data/models/Pack.dart';
 import 'package:frontend_app/data/providers/CollectionProvider.dart';
+import 'package:frontend_app/data/providers/PackProvider.dart';
 import 'package:frontend_app/widgets/elements/buttons_elements.dart';
 import 'package:provider/provider.dart';
 
-Widget boardgameCard(Boardgame boardgame,int idUser, BuildContext context) {
+Widget boardgameCard(Boardgame boardgame, int idUser, BuildContext context) {
   String imageUrl = boardgame.boardgameImageUrl;
   String encodedUrl = Uri.encodeComponent(imageUrl);
   String proxyUrl = 'http://localhost:8080/proxy?url=$encodedUrl';
@@ -104,8 +106,8 @@ Widget boardgameCard(Boardgame boardgame,int idUser, BuildContext context) {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                              text:
-                                  boardgame.fkBoardgameGender.boardgameGenderName),
+                              text: boardgame
+                                  .fkBoardgameGender.boardgameGenderName),
                         ],
                       ),
                     ),
@@ -129,27 +131,48 @@ Widget boardgameCard(Boardgame boardgame,int idUser, BuildContext context) {
                 Icons.add_box_sharp,
               ),
               const SizedBox(width: 12),
-              Container(
-                decoration: DecorationBoxButton(8),
-                child: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    print("Add to pack: $value");
-                  },
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(value: 'Pack 1', child: Text('Pack 1')),
-                    const PopupMenuItem(value: 'Pack 2', child: Text('Pack 2')),
-                    const PopupMenuItem(value: 'Pack 3', child: Text('Pack 3')),
-                  ],
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.playlist_add,
-                        color: Colors.white, size: 16),
-                    label: const Text("ADD PACK",
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: null,
-                    style: styleButton(),
-                  ),
-                ),
-              ),
+              Consumer<PackProvider>(
+                builder: (context, packProvider, _) {
+                  final userPacks = packProvider.packs;
+
+                  return Container(
+                    decoration: DecorationBoxButton(8),
+                    child: PopupMenuButton<Pack>(
+                      onSelected: (selectedPack) {
+                        // Usa directamente el provider que ya tenemos en el builder
+                        packProvider.addBoardgameToPack(
+                            selectedPack.packId, boardgame.boardgameId, idUser);
+                      },
+                      itemBuilder: (BuildContext _) {
+                        if (userPacks.isEmpty) {
+                          return [
+                            const PopupMenuItem<Pack>(
+                              value: null,
+                              child: Text("No tienes packs disponibles"),
+                            )
+                          ];
+                        }
+
+                        return userPacks.map((pack) {
+                          return PopupMenuItem<Pack>(
+                            value: pack,
+                            child: Text(pack.packName),
+                          );
+                        }).toList();
+                      },
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.playlist_add,
+                            color: Colors.white, size: 16),
+                        label: const Text("ADD PACK",
+                            style: TextStyle(color: Colors.white)),
+                        onPressed:
+                            null, // está bien dejar esto en null, se activa por el menu
+                        style: styleButton(),
+                      ),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ],
@@ -158,7 +181,8 @@ Widget boardgameCard(Boardgame boardgame,int idUser, BuildContext context) {
   );
 }
 
-Widget boardgameCollectionCard(Boardgame boardgame,int idUser, BuildContext context) {
+Widget boardgameCollectionCard(
+    Boardgame boardgame, int idUser, BuildContext context) {
   String imageUrl = boardgame.boardgameImageUrl;
   String encodedUrl = Uri.encodeComponent(imageUrl);
   String proxyUrl = 'http://localhost:8080/proxy?url=$encodedUrl';
@@ -257,8 +281,8 @@ Widget boardgameCollectionCard(Boardgame boardgame,int idUser, BuildContext cont
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                              text:
-                                  boardgame.fkBoardgameGender.boardgameGenderName),
+                              text: boardgame
+                                  .fkBoardgameGender.boardgameGenderName),
                         ],
                       ),
                     ),
@@ -277,31 +301,53 @@ Widget boardgameCollectionCard(Boardgame boardgame,int idUser, BuildContext cont
                 "ELIMNAR",
                 () {
                   Provider.of<CollectionProvider>(context, listen: false)
-                      .deleteBoardgameToCollection(idUser,boardgame.boardgameId);
+                      .deleteBoardgameToCollection(
+                          idUser, boardgame.boardgameId);
                 },
               ),
               const SizedBox(width: 12),
-              Container(
-                decoration: DecorationBoxButton(8),
-                child: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    print("Add to pack: $value");
-                  },
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(value: 'Pack 1', child: Text('Pack 1')),
-                    const PopupMenuItem(value: 'Pack 2', child: Text('Pack 2')),
-                    const PopupMenuItem(value: 'Pack 3', child: Text('Pack 3')),
-                  ],
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.playlist_add,
-                        color: Colors.white, size: 16),
-                    label: const Text("ADD PACK",
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: null,
-                    style: styleButton(),
-                  ),
-                ),
-              ),
+              Consumer<PackProvider>(
+                builder: (context, packProvider, _) {
+                  final userPacks = packProvider.packs;
+
+                  return Container(
+                    decoration: DecorationBoxButton(8),
+                    child: PopupMenuButton<Pack>(
+                      onSelected: (selectedPack) {
+                        // Usa directamente el provider que ya tenemos en el builder
+                        packProvider.addBoardgameToPack(
+                            selectedPack.packId, boardgame.boardgameId, idUser);
+                      },
+                      itemBuilder: (BuildContext _) {
+                        if (userPacks.isEmpty) {
+                          return [
+                            const PopupMenuItem<Pack>(
+                              value: null,
+                              child: Text("No tienes packs disponibles"),
+                            )
+                          ];
+                        }
+
+                        return userPacks.map((pack) {
+                          return PopupMenuItem<Pack>(
+                            value: pack,
+                            child: Text(pack.packName),
+                          );
+                        }).toList();
+                      },
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.playlist_add,
+                            color: Colors.white, size: 16),
+                        label: const Text("ADD PACK",
+                            style: TextStyle(color: Colors.white)),
+                        onPressed:
+                            null, // está bien dejar esto en null, se activa por el menu
+                        style: styleButton(),
+                      ),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ],
@@ -309,5 +355,3 @@ Widget boardgameCollectionCard(Boardgame boardgame,int idUser, BuildContext cont
     ),
   );
 }
-
-

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/Presentation.dart';
 import 'package:frontend_app/Styles/buttons_styles.dart';
+import 'package:frontend_app/data/providers/UserProvider.dart';
+import 'package:frontend_app/screens/out-app/ScreenLogin.dart';
+import 'package:frontend_app/widgets/Navigation.dart';
+import 'package:provider/provider.dart';
 
 Widget standardButton(String text, VoidCallback onPressed) {
   return Container(
@@ -42,6 +46,43 @@ Widget serviceButton (String text, VoidCallback onPressed, IconData icon){
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         
       ),
+    ),
+  );
+}
+
+Widget deleteButton(BuildContext context, int id) {
+  return Container(
+    decoration: DecorationBoxButtonRojo(8),
+    child: ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Confirmar eliminación"),
+            content: const Text("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text("Cancelar"),
+              ),
+              TextButton(
+                onPressed: () {
+                  final userProvider = Provider.of<UserProvider>(context, listen: false);
+                  userProvider.accountDelete(id); 
+                  Navigator.of(context).pop(); 
+                  Navigation.GoToScreen(context, const ScreenLogin()); 
+                },
+                child: const Text(
+                  "Eliminar",
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      style: styleButtonRojo(),
+      child: const Text("Eliminar cuenta"),
     ),
   );
 }

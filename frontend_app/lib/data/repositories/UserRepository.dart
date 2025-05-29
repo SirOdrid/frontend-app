@@ -51,7 +51,7 @@ class UserRepository {
   }
 }
 
-  Future<void> accountEdit(String id, User user) async {
+  Future<void> accountEdit(int id, User user) async {
     await _apiService.dio.put("${EndpointsApi.endpointBaseUser}/$id", data: user.toJson());
   }
 

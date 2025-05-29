@@ -299,23 +299,27 @@ class _ScreenPacksState extends State<ScreenPacks> {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      isExpanded
-                                          ? Icons.expand_less
-                                          : Icons.expand_more,
-                                      color: Colors.green,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        if (isExpanded) {
-                                          _expandedPackIds.remove(pack.packId);
-                                        } else {
-                                          _expandedPackIds.add(pack.packId);
-                                        }
-                                      });
-                                    },
-                                  ),
+                                  pack.boardgames.isNotEmpty
+                                      ? IconButton(
+                                          icon: Icon(
+                                            isExpanded
+                                                ? Icons.expand_less
+                                                : Icons.expand_more,
+                                            color: Colors.green,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (isExpanded) {
+                                                _expandedPackIds
+                                                    .remove(pack.packId);
+                                              } else {
+                                                _expandedPackIds
+                                                    .add(pack.packId);
+                                              }
+                                            });
+                                          },
+                                        )
+                                      : const SizedBox.shrink(),
                                   IconButton(
                                     icon: const Icon(Icons.delete,
                                         color: Colors.red),
@@ -355,16 +359,67 @@ class _ScreenPacksState extends State<ScreenPacks> {
                                         itemBuilder: (context, idx) {
                                           final boardgame =
                                               pack.boardgames[idx];
-                                              print('Pack: ${pack.packName} tiene ${pack.boardgames.length} juegos.');
-for (var bg in pack.boardgames) {
-  print(' - Juego: ${bg.boardgameName}');
-}
                                           return ListTile(
-                                            title: Text(
-                                              boardgame.boardgameName,
-                                              style: const TextStyle(
-                                                  color: Colors
-                                                      .white), // Cambiado a blanco
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                // Nombre del juego
+                                                Expanded(
+                                                  child: Text(
+                                                    boardgame.boardgameName,
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 16),
+                                                Expanded(
+                                                  child: collectionProvider
+                                                          .collections
+                                                          .any((collection) =>
+                                                              collection
+                                                                  .boardgameId ==
+                                                              boardgame
+                                                                  .boardgameId)
+                                                      ? Text(
+                                                          "Está en tu colección",
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.green,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ))
+                                                      : Text(
+                                                          "No está en tu colección",
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .red),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                ),
+
+                                                // Botón de ícono
+                                                IconButton(
+                                                  icon: const Icon(Icons.delete,
+                                                      color: Colors.red),
+                                                  onPressed: () {
+                                                    Provider.of<PackProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .deleteBoardgameToPack(
+                                                            pack.packId,
+                                                            boardgame
+                                                                .boardgameId,
+                                                            widget.user.userId);
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           );
                                         },

@@ -76,7 +76,7 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
       profileImage: _formProfileImage,
       emailNotifications: _aceptaNotificaciones,
       phoneNumber: int.tryParse(_formPhoneNumber) ?? 0,
-      birthdayDate: _formBirthdayDate.millisecondsSinceEpoch,
+      creationDate: _formBirthdayDate,
       fkCountry: Country(countryId: 0, countryName: _selectedCountry),
       fkUserType: UserType(userTypeId: 0, userTypeName: _selectedTypeUser),
     );

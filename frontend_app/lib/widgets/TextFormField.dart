@@ -8,6 +8,8 @@ class StandardTextFormField extends StatefulWidget {
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
   final bool onlyNumbers;
+  final TextEditingController? controller;
+  final TextEditingController? initialValue;
 
   const StandardTextFormField({
     super.key,
@@ -17,6 +19,8 @@ class StandardTextFormField extends StatefulWidget {
     this.onSaved,
     this.validator,
     required this.onlyNumbers,
+    this.controller,
+    this.initialValue,
   });
 
   @override
@@ -30,9 +34,8 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-
     _focusNode.addListener(() {
-      setState(() {}); // Para redibujar cuando cambia el foco
+      setState(() {}); // Redibuja al enfocar
     });
   }
 
@@ -49,6 +52,8 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
     return Padding(
       padding: const EdgeInsets.only(left: 50.0, right: 50.0),
       child: TextFormField(
+        initialValue: widget.initialValue?.text,
+        controller: widget.controller, // Uso del controller opcional
         obscureText: widget.obscureText,
         focusNode: _focusNode,
         style: const TextStyle(color: Colors.white),
@@ -56,10 +61,10 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
         onSaved: widget.onSaved,
         validator: widget.validator,
         inputFormatters: widget.onlyNumbers
-          ? <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ]
-          : null,
+            ? <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ]
+            : null,
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
@@ -67,19 +72,19 @@ class _StandardTextFormFieldState extends State<StandardTextFormField> {
           hintStyle: const TextStyle(color: Color.fromARGB(179, 255, 255, 255)),
           filled: true,
           fillColor: isFocused
-              ? const Color.fromARGB(255, 60, 43, 148) // Morado cuando está enfocado
-              : const Color.fromARGB(255, 43, 31, 105), // Color base cuando no lo está
+              ? const Color.fromARGB(255, 60, 43, 148)
+              : const Color.fromARGB(255, 43, 31, 105),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(
               color: Color.fromARGB(255, 21, 15, 51),
               width: 3,
-              ),
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(
-              color: Color(0xFF6236FF), // Borde morado al enfocar
+              color: Color(0xFF6236FF),
               width: 3,
             ),
           ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/data/models/Pack.dart';
 import 'package:frontend_app/data/models/User.dart';
 import 'package:frontend_app/data/providers/BoardgameProvider.dart';
 import 'package:frontend_app/data/providers/CollectionProvider.dart';
+import 'package:frontend_app/data/providers/PackProvider.dart';
 import 'package:frontend_app/widgets/resources/BoardgameCard.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +26,7 @@ class _ScreenSearchBoardgamesState extends State<ScreenSearchBoardgames> {
     super.initState();
     Provider.of<BoardgameProvider>(context, listen: false)
         .fetchBoardgamesBGG("a");
+    Provider.of<PackProvider>(context, listen: false).getPacksByUser(widget.user.userId);
   }
 
   @override
@@ -42,8 +45,8 @@ class _ScreenSearchBoardgamesState extends State<ScreenSearchBoardgames> {
 
   @override
 Widget build(BuildContext context) {
-  return Consumer2<BoardgameProvider, CollectionProvider>(
-    builder: (context, boardgameProvider, collectionProvider, child) {
+  return Consumer3<BoardgameProvider, CollectionProvider, PackProvider>(
+    builder: (context, boardgameProvider, collectionProvider, packProvider, child) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

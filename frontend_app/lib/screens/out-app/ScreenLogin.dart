@@ -67,6 +67,7 @@ class ScreenLoginState extends State<ScreenLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFF0B0B22),
         ),
         body: Container(
@@ -159,7 +160,7 @@ class ScreenLoginState extends State<ScreenLogin> {
                       //Boton de Registrarse
                       const SizedBox(height: 20),
                       standardButton("Registrarse", () {
-                        Navigation.cambiarScreen(context, ScreenRegistry());
+                        Navigation.GoToScreen(context, ScreenRegistry());
                       }),
                     ],
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/data/models/Boardgame.dart';
+import 'package:frontend_app/data/models/Stock.dart';
 import 'package:frontend_app/data/repositories/CollectionRepository.dart';
 
 class CollectionProvider with ChangeNotifier {
@@ -28,5 +29,17 @@ class CollectionProvider with ChangeNotifier {
 
   bool isInCollection(int boardgameId) {
     return _collection.any((boardgame) => boardgame.boardgameId == boardgameId);
+  }
+
+  List<Boardgame> getBoardgamesInStock(List<Stock> stockList, bool isInStock) {
+  final stockBoardgameIds = stockList.map((stock) => stock.fkBoardgame.boardgameId).toSet();
+  if (isInStock) {
+    return _collection
+        .where((boardgame) => stockBoardgameIds.contains(boardgame.boardgameId))
+        .toList();
+  }
+  return _collection
+      .where((boardgame) => !stockBoardgameIds.contains(boardgame.boardgameId))
+      .toList();
   }
 }

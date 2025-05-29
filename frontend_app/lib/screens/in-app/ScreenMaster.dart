@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/data/models/User.dart';
+import 'package:frontend_app/data/providers/PackProvider.dart';
+import 'package:frontend_app/data/providers/UserProvider.dart';
 import 'package:frontend_app/screens/in-app/Bodies/AssociationModule/ScreenAsociation.dart';
 import 'package:frontend_app/screens/in-app/Bodies/AssociationModule/ScreenComunityAnalytics.dart';
 import 'package:frontend_app/screens/in-app/Bodies/AssociationModule/ScreenLoans.dart';
@@ -8,14 +10,18 @@ import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenCollection.d
 import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenCollectionAnalytics.dart';
 import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenMatches.dart';
 import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenPacks.dart';
+import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenProfile.dart';
 import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenSearchBoardgames.dart';
 import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenSessions.dart';
 import 'package:frontend_app/screens/in-app/Bodies/CoreModule/ScreenSocial.dart';
+import 'package:frontend_app/screens/out-app/ScreenLogin.dart';
+import 'package:frontend_app/widgets/Navigation.dart';
+import 'package:provider/provider.dart';
 
 class ScreenMaster extends StatefulWidget {
-  const ScreenMaster({super.key, required this.user});
+  ScreenMaster({super.key, required this.user});
 
-  final User user;
+  User user;
 
   @override
   State<ScreenMaster> createState() => _ScreenMasterState();
@@ -29,17 +35,22 @@ class _ScreenMasterState extends State<ScreenMaster> {
   }
 
   void _goToProfile(BuildContext context) {
-    Navigator.pop(context); // Cierra el drawer
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Ir al perfil')),
-    );
+    Navigator.pop(context); 
+    setState(() {
+      selectedPage = 11;
+    });
   }
 
   void _logout(BuildContext context) {
-    Navigator.pop(context); // Cierra el drawer
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Cerrando sesión...')),
-    );
+    Navigator.pop(context);
+    Navigation.GoToScreen(context, const ScreenLogin());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<PackProvider>(context, listen: false)
+        .getPacksByUser(widget.user.userId);
   }
 
   @override
@@ -52,9 +63,13 @@ class _ScreenMasterState extends State<ScreenMaster> {
       // 1
       ScreenSocial(user: widget.user),
       // 2
-      ScreenCollection(user: widget.user, goToBoardgamesSearch: () {setState(() {
-                          selectedPage = 0;
-                        });}),
+      ScreenCollection(
+          user: widget.user,
+          goToBoardgamesSearch: () {
+            setState(() {
+              selectedPage = 0;
+            });
+          }),
       // 3
       ScreenPacks(user: widget.user),
       // 4
@@ -71,6 +86,8 @@ class _ScreenMasterState extends State<ScreenMaster> {
       ScreenLoans(user: widget.user),
       // 10
       ScreenComunityAnalytics(user: widget.user),
+      // 11
+      ScreenProfile(user: widget.user),
     ];
 
     return Scaffold(
@@ -84,16 +101,35 @@ class _ScreenMasterState extends State<ScreenMaster> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.menu),
+          iconSize: 32,
           color: Colors.white,
           onPressed: () {
             scaffoldKey.currentState!.openDrawer();
           },
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            iconSize: 32,
+            color: Colors.white,
+            onPressed: () {
+              setState(() {
+                selectedPage = 0;
+              });
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Image.asset(
+              'images/logo.png', // Ajusta si el path es distinto
+              height: 128, // Cambia este valor para modificar el tamaño
+            ),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Column(
           children: [
-            // Parte fija: DrawerHeader
             DrawerHeader(
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 85, 91, 95),
@@ -240,53 +276,53 @@ class _ScreenMasterState extends State<ScreenMaster> {
                       },
                     ),
                     if (_shouldShowAssociationTile())
-                    ExpansionTile(
-                      leading: const Icon(Icons.groups),
-                      title: const Text('MI ASOCIACIÓN'),
-                      initiallyExpanded: true,
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.group),
-                          title: const Text('MIS ASOCIADOS'),
-                          onTap: () {
-                            setState(() {
-                              selectedPage = 7;
-                            });
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.inventory),
-                          title: const Text('MI STOCK'),
-                          onTap: () {
-                            setState(() {
-                              selectedPage = 8;
-                            });
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.swap_horiz),
-                          title: const Text('MIS PRESTAMOS'),
-                          onTap: () {
-                            setState(() {
-                              selectedPage = 9;
-                            });
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.analytics),
-                          title: const Text('MOTOR DE ANÁLISIS'),
-                          onTap: () {
-                            setState(() {
-                              selectedPage = 10;
-                            });
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    ),
+                      ExpansionTile(
+                        leading: const Icon(Icons.groups),
+                        title: const Text('MI ASOCIACIÓN'),
+                        initiallyExpanded: true,
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.group),
+                            title: const Text('MIS ASOCIADOS'),
+                            onTap: () {
+                              setState(() {
+                                selectedPage = 7;
+                              });
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.inventory),
+                            title: const Text('MI STOCK'),
+                            onTap: () {
+                              setState(() {
+                                selectedPage = 8;
+                              });
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.swap_horiz),
+                            title: const Text('MIS PRESTAMOS'),
+                            onTap: () {
+                              setState(() {
+                                selectedPage = 9;
+                              });
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.analytics),
+                            title: const Text('MOTOR DE ANÁLISIS'),
+                            onTap: () {
+                              setState(() {
+                                selectedPage = 10;
+                              });
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -316,4 +352,5 @@ class _ScreenMasterState extends State<ScreenMaster> {
       ),
     );
   }
+
 }

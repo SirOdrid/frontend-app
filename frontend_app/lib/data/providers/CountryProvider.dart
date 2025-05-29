@@ -25,7 +25,7 @@ class CountryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// LAZY LOADING
+
 final allCountries = FutureProvider<List<Country>>((ref) async {
   final response = await http.get(Uri.parse("${EndpointsApi.baseUrl}${EndpointsApi.endpointAllCountries}"));
   if (response.statusCode == 200) {

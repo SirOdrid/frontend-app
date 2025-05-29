@@ -108,6 +108,8 @@ void _submitForm() {
 
   setState(() {
     _showForm = false;
+    _formSessionName = '';
+    _selectedUsers = [];
   });
 }
 
@@ -128,7 +130,7 @@ void _submitForm() {
   @override
   Widget build(BuildContext context) {
     final userAssociateProvider = Provider.of<UserAssociateProvider>(context);
-    final associatedUsers = userAssociateProvider.associations;
+    final associatedUsers = userAssociateProvider.associates;
     return Consumer2<SessionProvider, MeetingProvider>(
         builder: (context, sessionProvider, meetingProvider, child) {
       return Padding(

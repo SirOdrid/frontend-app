@@ -60,4 +60,23 @@ abstract class EndpointsApi {
   // BOARDGAME_PACK - ENDPOINTS
   static const String endpointBaseBoardgamePack = "/boardgame_pack";
 
+  // STOCK - ENDPOINTS
+  static const String endpointBaseStock = "/stock";
+  static const String endpointAddStock = "$endpointBaseStock/new";
+  static const String endpointEditStock = endpointBaseStock;
+  static const String endpointDeleteStock = endpointBaseStock;
+  static const String endpointGetStockByUser = "$endpointBaseStock/all$endpointBaseUser";
+
+  // LOAN - ENDPOINTS
+  static const String endpointBaseLoan = "/loan";
+  static const String endpointAddLoan = "$endpointBaseLoan/new";
+  static const String endpointEditLoan = endpointBaseLoan;
+  static const String endpointDeleteLoan = endpointBaseLoan;
+  static const String endpointGetLoansByStock = "$endpointBaseLoan/all$endpointBaseStock";
+  static const String endpointGetLoansByUser = "$endpointBaseLoan/all$endpointBaseUser";
+
+  // LOAN_STATE - ENDPOINTS
+  static const String endpointBaseLoanState = "/loan_state";
+  static const String endpointAllLoanStates = "$endpointBaseLoanState/all";
+
 }

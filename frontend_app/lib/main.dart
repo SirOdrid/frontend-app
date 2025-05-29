@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend_app/data/providers/BoardgameProvider.dart';
 import 'package:frontend_app/data/providers/CollectionProvider.dart';
 import 'package:frontend_app/data/providers/CountryProvider.dart';
+import 'package:frontend_app/data/providers/LoanProvider.dart';
+import 'package:frontend_app/data/providers/LoanStateProvider.dart';
 import 'package:frontend_app/data/providers/MeetingProvider.dart';
 import 'package:frontend_app/data/providers/PackProvider.dart';
 import 'package:frontend_app/data/providers/SessionProvider.dart';
+import 'package:frontend_app/data/providers/StockProvider.dart';
 import 'package:frontend_app/data/providers/UserAssociateProvider.dart';
 import 'package:frontend_app/data/providers/UserProvider.dart';
 import 'package:frontend_app/data/providers/UserTypeProvider.dart';
@@ -33,6 +36,13 @@ void main() {
           create: (context) => MeetingProvider()),
         ChangeNotifierProvider(
           create: (context) => PackProvider()),
+        ChangeNotifierProvider(
+          create: (context) => StockProvider()),
+        ChangeNotifierProvider(
+          create: (context) => LoanProvider()),
+        ChangeNotifierProvider(
+          create: (context) => LoanStateProvider()..init()),
+        
       ],
       child: const MyApp(),
     ),

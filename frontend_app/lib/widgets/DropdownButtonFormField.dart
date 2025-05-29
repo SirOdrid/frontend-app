@@ -5,6 +5,7 @@ class StandardDropdownButtonFormField extends StatefulWidget {
   final String? value;
   final ValueChanged<String?> onChanged;
   final List<DropdownMenuItem<String>> items;
+  final TextEditingController? controller;
 
   const StandardDropdownButtonFormField({
     super.key,
@@ -12,6 +13,8 @@ class StandardDropdownButtonFormField extends StatefulWidget {
     required this.value,
     required this.onChanged,
     required this.items,
+    this.controller,
+
   });
 
    @override
@@ -42,6 +45,7 @@ class _StandardDropdownButtonFormFieldState extends State<StandardDropdownButton
     return Padding(
       padding: const EdgeInsets.only(left: 50.0, right: 50.0),
       child: DropdownButtonFormField<String>(
+        isExpanded: true,
         value: widget.value,
         onChanged: widget.onChanged,
         items: widget.items,
@@ -61,7 +65,7 @@ class _StandardDropdownButtonFormFieldState extends State<StandardDropdownButton
         },
         decoration: InputDecoration(
           labelText: widget.labelText,
-          labelStyle: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 34, 214, 10)),
           hintStyle: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           filled: true,
           fillColor: isFocused
