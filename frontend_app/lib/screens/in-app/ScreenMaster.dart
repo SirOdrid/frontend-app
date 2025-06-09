@@ -213,12 +213,12 @@ class _ScreenMasterState extends State<ScreenMaster> {
                     ),
                     ExpansionTile(
                       leading: const Icon(Icons.collections_bookmark),
-                      title: const Text('MIS COLECCIONES'),
+                      title: const Text('COLECCIONES'),
                       initiallyExpanded: true,
                       children: [
                         ListTile(
                           leading: const Icon(Icons.library_books),
-                          title: const Text('MI COLECCIÓN'),
+                          title: const Text('COLECCIÓN'),
                           onTap: () {
                             setState(() {
                               selectedPage = 2;
@@ -228,7 +228,7 @@ class _ScreenMasterState extends State<ScreenMaster> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.all_inbox),
-                          title: const Text('MIS PACKS'),
+                          title: const Text('PACKS'),
                           onTap: () {
                             setState(() {
                               selectedPage = 3;
@@ -240,12 +240,12 @@ class _ScreenMasterState extends State<ScreenMaster> {
                     ),
                     ExpansionTile(
                       leading: const Icon(Icons.timeline),
-                      title: const Text('MI ACTIVIDAD'),
+                      title: const Text('ACTIVIDAD'),
                       initiallyExpanded: true,
                       children: [
                         ListTile(
                           leading: const Icon(Icons.schedule),
-                          title: const Text('MIS SESIONES'),
+                          title: const Text('SESIONES'),
                           onTap: () {
                             setState(() {
                               selectedPage = 4;
@@ -255,7 +255,7 @@ class _ScreenMasterState extends State<ScreenMaster> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.sports_esports),
-                          title: const Text('MIS PARTIDAS'),
+                          title: const Text('PARTIDAS'),
                           onTap: () {
                             setState(() {
                               selectedPage = 5;
@@ -267,7 +267,7 @@ class _ScreenMasterState extends State<ScreenMaster> {
                     ),
                     ListTile(
                       leading: const Icon(Icons.bar_chart),
-                      title: const Text('MIS ESTADISTICAS'),
+                      title: const Text('ESTADISTICAS'),
                       onTap: () {
                         setState(() {
                           selectedPage = 6;
@@ -278,12 +278,12 @@ class _ScreenMasterState extends State<ScreenMaster> {
                     if (_shouldShowAssociationTile())
                       ExpansionTile(
                         leading: const Icon(Icons.groups),
-                        title: const Text('MI ASOCIACIÓN'),
+                        title: const Text('ASOCIACIÓN'),
                         initiallyExpanded: true,
                         children: [
                           ListTile(
                             leading: const Icon(Icons.group),
-                            title: const Text('MIS ASOCIADOS'),
+                            title: const Text('ASOCIADOS'),
                             onTap: () {
                               setState(() {
                                 selectedPage = 7;
@@ -293,7 +293,7 @@ class _ScreenMasterState extends State<ScreenMaster> {
                           ),
                           ListTile(
                             leading: const Icon(Icons.inventory),
-                            title: const Text('MI STOCK'),
+                            title: const Text('STOCK'),
                             onTap: () {
                               setState(() {
                                 selectedPage = 8;
@@ -303,7 +303,7 @@ class _ScreenMasterState extends State<ScreenMaster> {
                           ),
                           ListTile(
                             leading: const Icon(Icons.swap_horiz),
-                            title: const Text('MIS PRESTAMOS'),
+                            title: const Text('PRESTAMOS'),
                             onTap: () {
                               setState(() {
                                 selectedPage = 9;

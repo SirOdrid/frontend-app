@@ -66,19 +66,20 @@ class UserRepository {
       data: userRecovery.toJson(),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception(jsonDecode(response.data.toString()));
-    }
-  } on DioException catch (dioError) {
-    if (dioError.response != null && dioError.response!.data != null) {
-      throw Exception(dioError.response!.data.toString());
+    if (response.statusCode == 200) {
+      return;
     } else {
-      throw Exception("Error de red: ${dioError.message}");
+      throw Exception('Error inesperado. Código: ${response.statusCode}');
     }
+  } on DioException catch (e) {
+    // Captura errores de Dio
+    throw Exception('Error en la solicitud: ${e.message}');
   } catch (e) {
-    throw Exception("Error inesperado: $e");
+    // Captura cualquier otro error
+    throw Exception('Error inesperado: $e');
   }
 }
+
 
   Future <List<User>> searchUsers(String username) async {
     try {

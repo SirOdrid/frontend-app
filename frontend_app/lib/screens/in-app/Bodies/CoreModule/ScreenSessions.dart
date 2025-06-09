@@ -261,11 +261,12 @@ void _submitForm() {
                       itemBuilder: (context, index) {
                         final session = sessionProvider.sessions[index];
                         return Card(
+                          color: Color.fromARGB(255, 60, 43, 148),
                           child: ListTile(
                             title: RichText(
                               text: TextSpan(
                                 style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                    color: Colors.white, fontSize: 24),
                                 children: [
                                   TextSpan(
                                     text: session.sessionName,
@@ -285,7 +286,7 @@ void _submitForm() {
                             subtitle: RichText(
                               text: TextSpan(
                                 style: const TextStyle(
-                                    color: Colors.black, fontSize: 16),
+                                    color: Colors.white70, fontSize: 18, fontWeight: FontWeight.bold),
                                 children: [
                                   const TextSpan(
                                     text: 'Jugadores: Tú, ',
@@ -296,6 +297,8 @@ void _submitForm() {
                                     text: session.sessionPlayers
                                         .map((player) => player.fkUser.userName)
                                         .join(', '),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold, color: Colors.white70, fontSize: 18),
                                   ),
                                 ],
                               ),
@@ -303,14 +306,6 @@ void _submitForm() {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit,
-                                      color: Colors.green),
-                                  onPressed: () {
-                                    // Provider.of<SessionProvider>(context, listen: false)
-                                    //   .deleteSession(sessionProvider.sessions[index].sessionId);
-                                  },
-                                ),
                                 IconButton(
                                   icon: const Icon(Icons.delete,
                                       color: Colors.red),

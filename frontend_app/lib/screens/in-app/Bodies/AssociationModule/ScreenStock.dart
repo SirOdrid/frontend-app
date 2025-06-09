@@ -59,12 +59,16 @@ class _ScreenStockState extends State<ScreenStock> {
       fkBoardgame: stock.fkBoardgame,
     );
 
-    await Provider.of<StockProvider>(context, listen: false)
-        .updateStock(updatedStock);
-
-    _updateControllers[stock.stockId]?.clear();
-    _newStocks[stock.stockId] = 0;
-    formKey.currentState!.reset();
+    if (updatedStock.units <= 0) {
+      await Provider.of<StockProvider>(context, listen: false)
+          .deleteStock(stock.stockId, widget.user.userId);
+    } else {
+      await Provider.of<StockProvider>(context, listen: false)
+          .updateStock(updatedStock);
+      _updateControllers[stock.stockId]?.clear();
+      _newStocks[stock.stockId] = 0;
+      formKey.currentState!.reset();
+    }
   }
 
   Future<void> _submitForm() async {
@@ -149,8 +153,8 @@ class _ScreenStockState extends State<ScreenStock> {
     return Consumer3<StockProvider, LoanProvider, CollectionProvider>(
       builder:
           (context, stockProvider, loanProvider, collectionProvider, child) {
-        final collections =
-            collectionProvider.getBoardgamesInStock(stockProvider.stocks, false);
+        final collections = collectionProvider.getBoardgamesInStock(
+            stockProvider.stocks, false);
 
         // final filteredStock = stockProvider.stocks.where((stock) {
         //   final name = stock.fkBoardgame.boardgameName.toLowerCase();
@@ -404,13 +408,11 @@ class _ScreenStockState extends State<ScreenStock> {
                                           decoration: DecorationBoxButton(8),
                                           child: Theme(
                                             data: Theme.of(context).copyWith(
-                                              cardColor: Colors.grey[
-                                                  850], 
+                                              cardColor: Colors.grey[850],
                                               textTheme:
                                                   const TextTheme().copyWith(
                                                 bodyMedium: const TextStyle(
-                                                    color: Colors
-                                                        .white),
+                                                    color: Colors.white),
                                               ),
                                             ),
                                             child: PopupMenuButton<bool>(
@@ -421,7 +423,7 @@ class _ScreenStockState extends State<ScreenStock> {
                                                       const [
                                                 PopupMenuItem<bool>(
                                                   value: true,
-                                                  child: Text("Sumar"),                                                      
+                                                  child: Text("Sumar"),
                                                 ),
                                                 PopupMenuItem<bool>(
                                                   value: false,
@@ -437,8 +439,7 @@ class _ScreenStockState extends State<ScreenStock> {
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
-                                                onPressed:
-                                                    null, // El botón solo muestra el popup
+                                                onPressed: null,
                                                 style: styleButton(),
                                               ),
                                             ),

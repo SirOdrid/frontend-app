@@ -23,6 +23,9 @@ class ScreenPacks extends StatefulWidget {
 class _ScreenPacksState extends State<ScreenPacks> {
   bool _showForm = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
+
+
 
   String? _selectedPackFilter;
   String? _selectedBoardgameFilter;
@@ -34,6 +37,13 @@ class _ScreenPacksState extends State<ScreenPacks> {
   void _toggleForm() {
     setState(() {
       _showForm = !_showForm;
+
+      if (!_showForm) {
+        _formKey.currentState?.reset();
+        _formPackName = '';
+        _selectedBoardgame = [];
+        _multiSelectKey.currentState?.validate();
+      }
     });
   }
 
@@ -110,6 +120,8 @@ class _ScreenPacksState extends State<ScreenPacks> {
       _showForm = false;
       _selectedBoardgame = [];
       _formPackName = '';
+      _formKey.currentState?.reset();
+      _multiSelectKey.currentState?.validate();
     });
   }
 
@@ -150,8 +162,12 @@ class _ScreenPacksState extends State<ScreenPacks> {
           const SizedBox(height: 16),
           standardButton(_showForm ? 'Minimizar' : 'Nuevo Pack', _toggleForm),
           const SizedBox(height: 16),
-          if (packProvider.packs.isNotEmpty &&
-              collectionProvider.collections.isNotEmpty)
+          if (collectionProvider.collections.isEmpty)
+            const Text(
+              "No hay juegos disponibles para crear un pack.",
+              style: TextStyle(color: Colors.white),
+            )
+          else
             SizedBox(
               width: double.infinity,
               child: AnimatedCrossFade(
@@ -179,6 +195,8 @@ class _ScreenPacksState extends State<ScreenPacks> {
                           ),
                           const SizedBox(height: 16),
                           MultiSelectDialogField<Boardgame>(
+                            key: _multiSelectKey,
+                            initialValue: _selectedBoardgame,
                             items: collectionProvider.collections
                                 .map((boardgame) => MultiSelectItem(
                                     boardgame, boardgame.boardgameName))
@@ -243,11 +261,6 @@ class _ScreenPacksState extends State<ScreenPacks> {
                 ),
                 secondChild: const SizedBox.shrink(),
               ),
-            )
-          else
-            const Text(
-              "No hay packs o juegos disponibles para asociar.",
-              style: TextStyle(color: Colors.white),
             ),
           const SizedBox(height: 16),
           Expanded(
@@ -266,18 +279,19 @@ class _ScreenPacksState extends State<ScreenPacks> {
                           _expandedPackIds.contains(pack.packId);
 
                       return Card(
+                        color: const Color.fromARGB(255, 60, 43, 148),
                         child: Column(
                           children: [
                             ListTile(
                               title: RichText(
                                 text: TextSpan(
                                   style: const TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                      color: Colors.white, fontSize: 24),
                                   children: [
                                     TextSpan(
                                       text: pack.packName,
                                       style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold, fontSize: 24),
                                     ),
                                   ],
                                 ),
@@ -285,14 +299,14 @@ class _ScreenPacksState extends State<ScreenPacks> {
                               subtitle: RichText(
                                 text: TextSpan(
                                   style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
+                                      color: Colors.white70,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                   children: [
                                     const TextSpan(text: 'Total de Juegos: '),
                                     TextSpan(
                                         text:
-                                            pack.boardgames.length.toString()),
+                                            pack.boardgames.length.toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white70)),
                                   ],
                                 ),
                               ),
@@ -349,7 +363,7 @@ class _ScreenPacksState extends State<ScreenPacks> {
                                       ),
                                     )
                                   : Container(
-                                      color: Colors.grey[850],
+                                      color: const Color.fromARGB(255, 90, 64, 216),
                                       constraints: const BoxConstraints(
                                         maxHeight: 200,
                                       ),
@@ -370,7 +384,7 @@ class _ScreenPacksState extends State<ScreenPacks> {
                                                   child: Text(
                                                     boardgame.boardgameName,
                                                     style: const TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.white, fontWeight: FontWeight.bold),
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                   ),
@@ -388,7 +402,8 @@ class _ScreenPacksState extends State<ScreenPacks> {
                                                           "Está en tu colección",
                                                           style:
                                                               const TextStyle(
-                                                            color: Colors.green,
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.bold,
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
@@ -398,7 +413,8 @@ class _ScreenPacksState extends State<ScreenPacks> {
                                                           style:
                                                               const TextStyle(
                                                                   color: Colors
-                                                                      .red),
+                                                                      .red,
+                                                                      fontWeight: FontWeight.bold),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),

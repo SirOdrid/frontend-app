@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/data/providers/AnalyticsProvider.dart';
 import 'package:frontend_app/data/providers/BoardgameProvider.dart';
 import 'package:frontend_app/data/providers/CollectionProvider.dart';
 import 'package:frontend_app/data/providers/CountryProvider.dart';
@@ -42,6 +43,8 @@ void main() {
           create: (context) => LoanProvider()),
         ChangeNotifierProvider(
           create: (context) => LoanStateProvider()..init()),
+        ChangeNotifierProvider(
+          create: (context) => AnalyticsProvider()),
         
       ],
       child: const MyApp(),

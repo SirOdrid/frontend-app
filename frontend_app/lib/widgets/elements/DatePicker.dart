@@ -103,14 +103,14 @@ class _DateSelectorDropdownState extends State<DateSelectorDropdown> {
                 labelText: widget.yearLabel,
                 labelStyle: TextStyle(color: Colors.white),
               ),
-              dropdownColor: Colors.grey[800], // Fondo del dropdown
-              style: TextStyle(color: Colors.white), // Color del texto seleccionado
+              dropdownColor: Colors.grey[800], 
+              style: TextStyle(color: Colors.white), 
               items: _years.map((year) {
                 return DropdownMenuItem<int>(
                   value: year,
                   child: Text(
                     year.toString(),
-                    style: TextStyle(color: Colors.white), // Color items del dropdown
+                    style: TextStyle(color: Colors.white), 
                   ),
                 );
               }).toList(),
@@ -118,7 +118,7 @@ class _DateSelectorDropdownState extends State<DateSelectorDropdown> {
                 _selectedYear = value!;
                 _updateDays();
               },
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white), // Icono del dropdown
+              icon: Icon(Icons.arrow_drop_down, color: Colors.white), 
             ),
           ),
           

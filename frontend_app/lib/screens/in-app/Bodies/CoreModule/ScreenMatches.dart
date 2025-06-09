@@ -265,10 +265,11 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                         itemBuilder: (context, index) {
                           final meeting = filteredMeetings[index];
                           return Card(
+                            color: Color.fromARGB(255, 60, 43, 148),
                             child: ListTile(
                               title: RichText(
                                 text: TextSpan(
-                                  style: const TextStyle(color: Colors.black, fontSize: 20),
+                                  style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(
                                       text: meeting.fkSession.sessionName,
@@ -288,11 +289,11 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                                      style: const TextStyle(color: Colors.white70, fontSize: 18, fontWeight: FontWeight.bold),
                                       children: [
                                         const TextSpan(
                                           text: 'Juego: ',
-                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white70),
                                         ),
                                         TextSpan(text: meeting.fkBoardgame.boardgameName),
                                       ],
@@ -301,11 +302,11 @@ class _ScreenMatchesState extends State<ScreenMatches> {
                                   const SizedBox(height: 4),
                                   RichText(
                                     text: TextSpan(
-                                      style: const TextStyle(color: Colors.black, fontSize: 14),
+                                      style: const TextStyle(color: Colors.white70, fontSize: 18, fontWeight: FontWeight.bold),
                                       children: [
                                         const TextSpan(
                                           text: 'Duración: ',
-                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white70),
                                         ),
                                         TextSpan(
                                             text: meeting.formatDuration(meeting.meetingDuration)),

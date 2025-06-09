@@ -11,14 +11,14 @@ class ApiService {
   ApiService() {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        //options.headers["Authorization"] = "Bearer TOKEN"; // Autenticación si es necesario
+        //options.headers["Authorization"] = "Bearer TOKEN"; // Autenticación para iteraciones futuras, robustez en seguridad
         return handler.next(options);
       },
       onResponse: (response, handler) {
         return handler.next(response);
       },
       onError: (DioException e, handler) {
-        print("Error en la API: ${e.response?.statusCode} ${_dio.options.baseUrl} ${e.response?.data}");
+        print("Response Error: ${e.response?.statusCode} ${_dio.options.baseUrl} ${e.response?.data}");
         return handler.next(e);
       },
     ));

@@ -238,7 +238,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                     (value) => setState(() => _aceptaNotificaciones = value!),
                     "Acepto recibir notificaciones por email",
                     "",
-                    () => Dialogs.mostrarTerminosDialog(context),
+                    () => Dialogs.showTermsDialog(context),
                     context,
                   ),
                   const SizedBox(height: 20),

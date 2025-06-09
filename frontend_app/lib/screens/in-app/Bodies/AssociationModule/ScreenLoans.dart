@@ -195,6 +195,11 @@ class _ScreenLoansState extends State<ScreenLoans> {
         _gameSearchTerm = _gameSearchController.text.toLowerCase();
       });
     });
+    _userSearchController.addListener(() {
+      setState(() {
+        _userSearchTerm = _userSearchController.text.toLowerCase();
+      });
+    });
   }
 
   @override

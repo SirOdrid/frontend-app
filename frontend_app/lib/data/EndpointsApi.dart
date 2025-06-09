@@ -23,7 +23,6 @@ abstract class EndpointsApi {
   static const String endpointDeleteAssociation = endpointBaseUserAssociate;
   static const String endpointAllAssociations = "$endpointBaseUserAssociate/all_associations";
   static const String endpointAllAssociates = "$endpointBaseUserAssociate/all_associated";
-  
 
   // BOARDGAME - ENDPOINTS
   static const String endpointBaseBoardgame = "/boardgame";
@@ -78,5 +77,15 @@ abstract class EndpointsApi {
   // LOAN_STATE - ENDPOINTS
   static const String endpointBaseLoanState = "/loan_state";
   static const String endpointAllLoanStates = "$endpointBaseLoanState/all";
+
+  // ANALYTICS - ENDPOINTS
+  static const String endpointBaseAnalytics = "/analytics";
+  static const String endpointBoardgamesStats = "$endpointBaseAnalytics/activity/$endpointBaseUser";
+  static const String endpointTopGenresByUser = "$endpointBaseAnalytics/genres/$endpointBaseUser";
+  static const String endpointUnplayedPoupularBoardgames = "$endpointBaseAnalytics/unplayed/$endpointBaseUser";
+  static const String endpointUsageBoardgames = "$endpointBaseAnalytics/usage/$endpointBaseUser";
+  static const String endpointBoardgamesOwnershipStats = "$endpointBaseAnalytics/associate_compose/$endpointBaseUser";
+  static const String endpointBoardgamesPlayStats = "$endpointBaseAnalytics/associate_boardgames/$endpointBaseUser";
+  static const String endpointBoardgamesLoanStats = "$endpointBaseAnalytics/loan_activity/$endpointBaseUser";
 
 }

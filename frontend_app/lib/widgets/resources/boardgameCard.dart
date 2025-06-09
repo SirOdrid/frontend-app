@@ -13,6 +13,7 @@ Widget boardgameCard(Boardgame boardgame, int idUser, BuildContext context) {
   String proxyUrl = 'http://localhost:8080/proxy?url=$encodedUrl';
 
   return Card(
+    color: const Color.fromARGB(255, 60, 43, 148),
     margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
     child: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -57,61 +58,63 @@ Widget boardgameCard(Boardgame boardgame, int idUser, BuildContext context) {
                     Text(
                       boardgame.boardgameName,
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         children: [
                           const TextSpan(
                             text: 'Jugadores: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
                           ),
                           TextSpan(
                               text:
-                                  '${boardgame.minPlayers} - ${boardgame.maxPlayers}'),
+                                  '${boardgame.minPlayers} - ${boardgame.maxPlayers}', style: const TextStyle(color: Colors.white70)),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 8),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         children: [
                           const TextSpan(
                             text: 'Año: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
                           ),
-                          TextSpan(text: '${boardgame.releaseYear}'),
+                          TextSpan(text: '${boardgame.releaseYear}', style: const TextStyle(color: Colors.white70)),
                         ],
                       ),
                     ),
+                    SizedBox(height: 8),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         children: [
                           const TextSpan(
                             text: 'Género: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
                           ),
                           TextSpan(
                               text: boardgame
-                                  .fkBoardgameGender.boardgameGenderName),
+                                  .fkBoardgameGender.boardgameGenderName, style: const TextStyle(color: Colors.white70)),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -181,13 +184,13 @@ Widget boardgameCard(Boardgame boardgame, int idUser, BuildContext context) {
   );
 }
 
-Widget boardgameCollectionCard(
-    Boardgame boardgame, int idUser, BuildContext context) {
+Widget boardgameCollectionCard(Boardgame boardgame, int idUser, BuildContext context) {
   String imageUrl = boardgame.boardgameImageUrl;
   String encodedUrl = Uri.encodeComponent(imageUrl);
   String proxyUrl = 'http://localhost:8080/proxy?url=$encodedUrl';
 
   return Card(
+    color: const Color.fromARGB(255, 60, 43, 148),
     margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
     child: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -232,57 +235,62 @@ Widget boardgameCollectionCard(
                     Text(
                       boardgame.boardgameName,
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         children: [
                           const TextSpan(
                             text: 'Jugadores: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
                           ),
                           TextSpan(
                               text:
-                                  '${boardgame.minPlayers} - ${boardgame.maxPlayers}'),
+                                  '${boardgame.minPlayers} - ${boardgame.maxPlayers}',
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),),
+                                  
                         ],
                       ),
                     ),
+                    SizedBox(height: 8),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         children: [
                           const TextSpan(
                             text: 'Año: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
                           ),
-                          TextSpan(text: '${boardgame.releaseYear}'),
+                          TextSpan(text: '${boardgame.releaseYear}', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)),
                         ],
                       ),
                     ),
+                    SizedBox(height: 8),
                     RichText(
                       text: TextSpan(
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         children: [
                           const TextSpan(
                             text: 'Género: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
                           ),
                           TextSpan(
                               text: boardgame
-                                  .fkBoardgameGender.boardgameGenderName),
+                                  .fkBoardgameGender.boardgameGenderName, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)),
                         ],
                       ),
                     ),

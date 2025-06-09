@@ -21,7 +21,7 @@ ButtonStyle styleButton() {
 BoxDecoration DecorationBoxButton(double radio) {
   return BoxDecoration(
     gradient: const LinearGradient(
-      colors: [Color.fromARGB(255, 18, 58, 0), Color.fromARGB(255, 44, 138, 0)], // Verde claro a oscuro
+      colors: [Color.fromARGB(255, 18, 58, 0), Color.fromARGB(255, 44, 138, 0)], 
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ),

@@ -5,7 +5,6 @@ import 'package:frontend_app/data/models/UserRecovery.dart';
 import 'package:frontend_app/data/providers/UserProvider.dart';
 import 'package:frontend_app/screens/in-app/ScreenMaster.dart';
 import 'package:frontend_app/screens/out-app/ScreenRegistry.dart';
-
 import 'package:frontend_app/widgets/Navigation.dart';
 import 'package:frontend_app/widgets/TextFormField.dart';
 import 'package:frontend_app/widgets/elements/buttons_elements.dart';
@@ -24,12 +23,8 @@ class ScreenLoginState extends State<ScreenLogin> {
   String _formPassHash = '';
   String _formEmail = '';
 
-  //Gestiona el proceso de hacer login en la app
   void _login() async {
-    if (!_formKey.currentState!.validate()) {
-      // Si el formulario no es válido, no continuar
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
 
     UserLogin userLogin =
@@ -40,11 +35,7 @@ class ScreenLoginState extends State<ScreenLogin> {
       User user = await usuarioProvider.loginUser(userLogin);
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => ScreenMaster(
-            user: user,
-          ),
-        ),
+        MaterialPageRoute(builder: (context) => ScreenMaster(user: user)),
       );
     } catch (e) {
       showDialog(
@@ -66,206 +57,217 @@ class ScreenLoginState extends State<ScreenLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF0B0B22),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFF0B0B22),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.center,
+            colors: [
+              Color(0xFF0B0B22),
+              Color(0xFF1B1B3A),
+              Color(0xFF2A144B),
+            ],
+          ),
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.center,
-              colors: [
-                Color(0xFF0B0B22),
-                Color(0xFF1B1B3A),
-                Color(0xFF2A144B),
-              ],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 40),
-                //TITULO
-                const Text(
-                  "TRACKER CRAWLER",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 252, 252, 252),
-                  ),
-                  textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              const Text(
+                "TRACKER CRAWLER",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-
-                //Logotipo de la aplicacion
-                const SizedBox(height: 60),
-                Image(
-                  image: AssetImage('assets/images/logo.png'),
-                ),
-
-                const SizedBox(height: 75),
-
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
-                      StandardTextFormField(
-                        labelText: 'Email *',
-                        hintText: 'Introduce tu email...',
-                        obscureText: false,
-                        onSaved: (newValue) => _formEmail = newValue!,
-                        onlyNumbers: false,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Campo obligatorio';
-                          }
-                          // Expresión regular para validar email
-                          final emailRegExp =
-                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-                          if (!emailRegExp.hasMatch(value)) {
-                            return 'Introduce un email válido';
-                          }
-                          return null; // todo bien
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
-                      StandardTextFormField(
-                        labelText: 'Contraseña *',
-                        hintText: 'Introduce tu contraseña...',
-                        obscureText: true,
-                        onSaved: (pass) => _formPassHash = pass!,
-                        onlyNumbers: false,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Campo obligatorio';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 40),
-                      standardButton("Iniciar Sesión", () {
-                        _login();
-                      }),
-
-                      //Boton de Registrarse
-                      const SizedBox(height: 20),
-                      standardButton("Registrarse", () {
-                        Navigation.GoToScreen(context, ScreenRegistry());
-                      }),
-                    ],
-                  ),
-                ),
-                //Boton de iniciar sesion
-
-                const SizedBox(height: 20),
-                TextButton(
-                  onPressed: () {
-                    final GlobalKey<FormState> formKeyTwo =
-                        GlobalKey<FormState>();
-                    String email = '';
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text("Recuperar contraseña"),
-                          content: Form(
-                            key: formKeyTwo,
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
-                                hintText: 'Introduce tu correo electrónico',
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Campo obligatorio';
-                                }
-                                final emailRegex =
-                                    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                                if (!emailRegex.hasMatch(value)) {
-                                  return 'Introduce un email válido';
-                                }
-                                return null;
-                              },
-                              onSaved: (newValue) => email = newValue!,
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              child: const Text("Cancelar"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            ElevatedButton(
-                              child: const Text("Enviar solicitud"),
-                              onPressed: () async {
-                                if (formKeyTwo.currentState!.validate()) {
-                                  formKeyTwo.currentState!.save();
-
-                                  try {
-                                    UserRecovery userRecovery =
-                                        UserRecovery(emailRecovery: email); 
-                                    final usuarioProvider =
-                                        Provider.of<UserProvider>(context,
-                                            listen: false);
-                                    await usuarioProvider.passwordRecovery(
-                                        userRecovery); // <- AWAIT AQUÍ
-                                    Navigator.of(context).pop();
-
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Se ha enviado un correo a $email")),
-                                    );
-                                  } catch (e) {
-                                    // Mostramos el error si algo salió mal
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text('Email Enviado'),
-                                        content: Text("Se ha enviado un correo a $email"),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('Cerrar'),
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                            ),
-                          ],
-                        );
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 60),
+              const Image(image: AssetImage('assets/images/logo.png')),
+              const SizedBox(height: 75),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    StandardTextFormField(
+                      labelText: 'Email *',
+                      hintText: 'Introduce tu email...',
+                      obscureText: false,
+                      onSaved: (newValue) => _formEmail = newValue!,
+                      onlyNumbers: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo obligatorio';
+                        }
+                        final emailRegExp =
+                            RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                        if (!emailRegExp.hasMatch(value)) {
+                          return 'Introduce un email válido';
+                        }
+                        return null;
                       },
-                    );
-                  },
-                  child: Text(
-                    '¿Olvidaste tu Contraseña?',
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 44, 138, 0),
-                        fontSize: 20,
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    StandardTextFormField(
+                      labelText: 'Contraseña *',
+                      hintText: 'Introduce tu contraseña...',
+                      obscureText: true,
+                      onSaved: (pass) => _formPassHash = pass!,
+                      onlyNumbers: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo obligatorio';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 40),
+                    standardButton("Iniciar Sesión", _login),
+                    const SizedBox(height: 20),
+                    standardButton("Registrarse", () {
+                      Navigation.GoToScreen(context, ScreenRegistry());
+                    }),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  final GlobalKey<FormState> formKeyTwo =
+                      GlobalKey<FormState>();
+                  String email = '';
+                  bool isLoading = false;
+
+                  showDialog(
+                    context: context,
+                    builder: (dialogContext) {
+                      return StatefulBuilder(
+                        builder: (context, setState) => AlertDialog(
+                          title: const Text("Recuperar contraseña"),
+                          content: isLoading
+                              ? const SizedBox(
+                                  height: 100,
+                                  child: Center(child: CircularProgressIndicator()),
+                                )
+                              : Form(
+                                  key: formKeyTwo,
+                                  child: TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                      hintText: 'Introduce tu correo electrónico',
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Campo obligatorio';
+                                      }
+                                      final emailRegex = RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                      if (!emailRegex.hasMatch(value)) {
+                                        return 'Introduce un email válido';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (newValue) => email = newValue!,
+                                  ),
+                                ),
+                          actions: isLoading
+                              ? []
+                              : [
+                                  TextButton(
+                                    child: const Text("Cancelar"),
+                                    onPressed: () {
+                                      Navigator.of(dialogContext).pop();
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    child: const Text("Enviar solicitud"),
+                                    onPressed: () async {
+                                      if (formKeyTwo.currentState!.validate()) {
+                                        formKeyTwo.currentState!.save();
+                                        setState(() => isLoading = true);
+
+                                        try {
+                                          final usuarioProvider =
+                                              Provider.of<UserProvider>(
+                                                  context,
+                                                  listen: false);
+
+                                          await usuarioProvider.passwordRecovery(
+                                            UserRecovery(emailRecovery: email),
+                                          );
+
+                                          Navigator.of(dialogContext).pop();
+
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              backgroundColor: Colors.grey[850],
+                                          
+                                              title: const Text("Correo enviado", style: TextStyle(color: Colors.white)),
+                                              content: Text(
+                                                  "Se ha enviado un correo a $email con instrucciones para recuperar tu contraseña." ,
+                                                  style: TextStyle(color: Colors.white)),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("Aceptar"),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        } catch (e) {
+                                          Navigator.of(dialogContext).pop();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text("Error"),
+                                              content: const Text(
+                                                  "Ocurrió un error. Intenta nuevamente."),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("Cerrar"),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                                  ),
+                                ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: const Text(
+                  '¿Olvidaste tu Contraseña?',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 44, 138, 0),
+                    fontSize: 20,
+                    decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 80),
-              ],
-            ),
+              ),
+              const SizedBox(height: 80),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
+

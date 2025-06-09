@@ -326,7 +326,7 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
                           "Acepto los ", 
                           "términos y condiciones",
                           () {
-                            Dialogs.mostrarTerminosDialog(context);
+                            Dialogs.showTermsDialog(context);
                           },
                           context),
                         
@@ -341,7 +341,7 @@ class _ScreenRegistryState extends State<ScreenRegistry> {
                           "Acepto recibir notificaciones por email", 
                           "",
                           () {
-                            Dialogs.mostrarTerminosDialog(context);
+                            Dialogs.showTermsDialog(context);
                           },
                           context),
 

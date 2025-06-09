@@ -24,11 +24,12 @@ class Dialogs {
     );
   }
 
-  static void mostrarTerminosDialog(BuildContext context) {
+  static void showTermsDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Términos y Condiciones'),
+        backgroundColor: Colors.grey[850],
+        title: const Text('Términos y Condiciones', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),),
         content: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -38,7 +39,7 @@ class Dialogs {
                 child: SingleChildScrollView(
                   
                   child: Text(
-                    TextContent.termsAndConditions, )
+                    TextContent.termsAndConditions, style: TextStyle(color: Colors.white),)
                 ),
               )
             ],
@@ -47,7 +48,8 @@ class Dialogs {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Aceptar'),
+            style: TextButton.styleFrom(backgroundColor: Colors.green),
+            child: const Text('Aceptar', style: TextStyle(color: Colors.white),),
           ),
         ],
       ),

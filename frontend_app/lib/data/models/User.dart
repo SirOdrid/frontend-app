@@ -26,6 +26,7 @@ class User {
     required this.fkUserType,
   });
 
+  // Getters
   int getUserId() => userId;
   String getUserName() => userName;
   String getPassHash() => passHash;
@@ -53,6 +54,7 @@ class User {
     );
   }
 
+  // Convierte un objeto User a un JSON
   Map<String, dynamic> toJson() {
     return {
       'userNameRq': userName,
